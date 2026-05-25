@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ของหาย — ห้องโสตทัศนศึกษา</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700&family=Sarabun:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root { --white:#ffffff; --off-white:#f7f9fc; --blue:#1a6bdb; --blue-soft:#e8f0fe; --text:#1a2340; --text-sub:#6b7a99; --border:#e2e8f0; }
+body { font-family:'Sarabun',sans-serif; background:var(--white); color:var(--text); }
+
+nav { position:fixed; top:0; left:0; right:0; z-index:100; height:64px; background:rgba(255,255,255,0.95); backdrop-filter:blur(10px); border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; padding:0 6%; }
+.logo { display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text); font-family:'Kanit',sans-serif; font-weight:600; font-size:1rem; }
+.logo-dot { width:32px; height:32px; border-radius:50%; border:2px solid var(--blue); display:flex; align-items:center; justify-content:center; }
+.logo-dot::after { content:''; width:10px; height:10px; background:var(--blue); border-radius:50%; }
+.nav-links { display:flex; gap:2px; align-items:center; }
+.nav-links a { text-decoration:none; color:var(--text-sub); font-family:'Kanit',sans-serif; font-size:0.88rem; padding:7px 16px; border-radius:8px; transition:all 0.2s; }
+.nav-links a:hover { color:var(--blue); background:var(--blue-soft); }
+.nav-links a.active { color:var(--blue); font-weight:600; background:var(--blue-soft); }
+.nav-links a.cta { background:var(--blue); color:white !important; margin-left:8px; }
+.nav-links a.cta:hover { background:#1558c0; }
+.hamburger { display:none; flex-direction:column; justify-content:center; gap:5px; width:36px; height:36px; cursor:pointer; background:none; border:none; padding:4px; }
+.hamburger span { display:block; width:22px; height:2px; background:var(--text); border-radius:2px; transition:all 0.3s; }
+.hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity:0; }
+.hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+.mobile-menu { display:none; position:fixed; top:64px; left:0; right:0; background:white; border-bottom:1px solid var(--border); padding:12px 6%; z-index:99; flex-direction:column; gap:4px; box-shadow:0 8px 24px rgba(0,0,0,0.06); }
+.mobile-menu.open { display:flex; }
+.mobile-menu a { text-decoration:none; color:var(--text-sub); font-family:'Kanit',sans-serif; font-size:0.9rem; padding:10px 14px; border-radius:8px; transition:all 0.2s; }
+.mobile-menu a:hover { color:var(--blue); background:var(--blue-soft); }
+.mobile-menu a.active { color:var(--blue); font-weight:600; background:var(--blue-soft); }
+
+.page-hero { min-height:220px; background:var(--off-white); display:flex; align-items:center; padding:100px 6% 48px; border-bottom:1px solid var(--border); position:relative; overflow:hidden; }
+.page-hero::before { content:''; position:absolute; right:-5%; top:50%; transform:translateY(-50%); width:360px; height:360px; border-radius:50%; background:radial-gradient(circle,var(--blue-soft) 0%,rgba(232,240,254,0) 70%); }
+.page-hero-content { position:relative; z-index:1; }
+.hero-eyebrow { display:inline-flex; align-items:center; gap:8px; font-family:'Kanit',sans-serif; font-size:0.75rem; letter-spacing:2px; text-transform:uppercase; color:var(--blue); margin-bottom:14px; }
+.hero-eyebrow::before { content:''; width:20px; height:1px; background:var(--blue); }
+.page-hero h1 { font-family:'Kanit',sans-serif; font-weight:700; font-size:clamp(1.8rem,3.5vw,2.8rem); line-height:1.15; color:var(--text); margin-bottom:12px; }
+.page-hero h1 em { color:var(--blue); font-style:normal; }
+.page-hero p { color:var(--text-sub); font-size:0.95rem; line-height:1.8; max-width:480px; }
+
+.lost-section { padding:64px 6% 80px; }
+.lost-top { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:36px; }
+.lost-controls { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+
+.search-box { display:flex; align-items:center; background:white; border:1px solid var(--border); border-radius:8px; padding:4px 4px 4px 14px; width:260px; }
+.search-box input { background:none; border:none; outline:none; font-family:'Sarabun',sans-serif; font-size:0.85rem; color:var(--text); width:100%; padding:5px 0; }
+.search-box input::placeholder { color:var(--text-sub); }
+.s-btn { background:var(--blue); border:none; border-radius:6px; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; }
+
+.status-tabs { display:flex; gap:6px; }
+.s-tab { padding:6px 14px; border-radius:20px; font-family:'Kanit',sans-serif; font-size:0.78rem; border:1px solid var(--border); background:white; color:var(--text-sub); cursor:pointer; transition:all 0.2s; }
+.s-tab.on { background:var(--blue); color:white; border-color:var(--blue); }
+
+.lost-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+.l-card { background:white; border:1px solid var(--border); border-radius:10px; padding:18px; transition:all 0.2s; cursor:pointer; }
+.l-card:hover { border-color:rgba(26,107,219,0.3); box-shadow:0 4px 16px rgba(26,107,219,0.08); }
+.l-ico { font-size:1.5rem; margin-bottom:12px; }
+.l-card h4 { font-family:'Kanit',sans-serif; font-weight:600; font-size:0.9rem; margin-bottom:5px; color:var(--text); }
+.l-card p { font-size:0.78rem; color:var(--text-sub); line-height:1.6; }
+.badge { display:inline-flex; align-items:center; gap:5px; margin-top:12px; padding:3px 10px; border-radius:20px; font-size:0.7rem; font-family:'Kanit',sans-serif; }
+.found { background:#e6f9f0; color:#16a34a; }
+.seek { background:#fff7e6; color:#d97706; }
+.add { background:var(--blue-soft); color:var(--blue); }
+
+/* Report modal */
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(26,35,64,0.7); z-index:999; align-items:center; justify-content:center; }
+.modal-overlay.open { display:flex; }
+.modal { background:white; border-radius:16px; padding:36px; max-width:460px; width:90%; position:relative; }
+.modal h3 { font-family:'Kanit',sans-serif; font-weight:700; font-size:1.2rem; color:var(--text); margin-bottom:6px; }
+.modal p { font-size:0.85rem; color:var(--text-sub); margin-bottom:24px; }
+.m-close { position:absolute; top:16px; right:16px; background:none; border:none; font-size:1.3rem; cursor:pointer; color:var(--text-sub); }
+.form-row { margin-bottom:16px; }
+.form-row label { display:block; font-family:'Kanit',sans-serif; font-size:0.8rem; color:var(--text-sub); margin-bottom:6px; }
+.form-row input, .form-row select, .form-row textarea {
+  width:100%; padding:10px 14px; border:1px solid var(--border); border-radius:8px;
+  font-family:'Sarabun',sans-serif; font-size:0.88rem; color:var(--text); outline:none;
+  transition:border-color 0.2s;
+}
+.form-row input:focus, .form-row select:focus, .form-row textarea:focus { border-color:var(--blue); }
+.form-row textarea { resize:vertical; min-height:80px; }
+.form-actions { display:flex; gap:10px; margin-top:20px; }
+.btn { display:inline-flex; align-items:center; gap:7px; font-family:'Kanit',sans-serif; font-size:0.9rem; padding:10px 24px; border-radius:8px; text-decoration:none; transition:all 0.2s; border:none; cursor:pointer; }
+.btn-blue { background:var(--blue); color:white; }
+.btn-blue:hover { background:#1558c0; }
+.btn-ghost { background:transparent; color:var(--text); border:1px solid var(--border); }
+.btn-ghost:hover { border-color:var(--blue); color:var(--blue); }
+
+/* Stats */
+.lost-stats { display:flex; gap:16px; margin-bottom:36px; flex-wrap:wrap; }
+.stat-pill { display:flex; align-items:center; gap:8px; padding:8px 16px; border-radius:20px; border:1px solid var(--border); font-family:'Kanit',sans-serif; font-size:0.82rem; background:white; }
+.stat-pill .num { font-weight:700; font-size:1rem; color:var(--blue); }
+
+footer { background:white; border-top:1px solid var(--border); padding:52px 6% 28px; }
+.ft-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:36px; margin-bottom:40px; }
+.ft-brand p { font-size:0.85rem; color:var(--text-sub); line-height:1.8; margin-top:12px; max-width:260px; }
+.ft-col h5 { font-family:'Kanit',sans-serif; font-size:0.72rem; letter-spacing:2px; text-transform:uppercase; color:var(--blue); margin-bottom:14px; }
+.ft-col a { display:block; font-size:0.85rem; color:var(--text-sub); text-decoration:none; margin-bottom:8px; transition:color 0.2s; }
+.ft-col a:hover { color:var(--text); }
+.ft-bottom { display:flex; justify-content:space-between; border-top:1px solid var(--border); padding-top:20px; flex-wrap:wrap; gap:10px; }
+.ft-bottom p { font-size:0.78rem; color:var(--text-sub); }
+.online { display:flex; align-items:center; gap:6px; }
+.dot-green { width:7px; height:7px; border-radius:50%; background:#16a34a; animation:blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.fade { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease,transform 0.6s ease; }
+.fade.in { opacity:1; transform:translateY(0); }
+
+@media(max-width:900px){ .lost-grid { grid-template-columns:1fr 1fr; } .ft-grid { grid-template-columns:1fr 1fr; } }
+@media(max-width:580px){ .nav-links { display:none !important; } .hamburger { display:flex; } .lost-grid { grid-template-columns:1fr; } .ft-grid { grid-template-columns:1fr; } .lost-top { flex-direction:column; align-items:flex-start; } .search-box { width:100%; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html"><div class="logo-dot"></div>ห้องโสตทัศนศึกษา</a>
+  <div class="nav-links">
+    <a href="index.html">หน้าหลัก</a>
+    <a href="portfolio.html">ผลงาน</a>
+    <a href="gallery.html">รูปภาพ</a>
+    <a href="lost.html" class="active">ของหาย</a>
+    <a href="#" class="cta" onclick="openModal(event)">แจ้งของหาย</a>
+  </div>
+  <button class="hamburger" id="hbg"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mob-menu">
+  <a href="index.html">หน้าหลัก</a>
+  <a href="portfolio.html">ผลงาน</a>
+  <a href="gallery.html">รูปภาพ</a>
+  <a href="lost.html" class="active">ของหาย</a>
+</div>
+
+<div class="page-hero">
+  <div class="page-hero-content">
+    <div class="hero-eyebrow">แจ้งของหาย</div>
+    <h1>ของหาย &<em> ของพบ</em></h1>
+    <p>แจ้งของสูญหายหรือของพบในห้องโสต ค้นหาหรือเพิ่มรายการได้เลย</p>
+  </div>
+</div>
+
+<div class="lost-section">
+  <div class="lost-stats">
+    <div class="stat-pill"><span class="num">4</span> รายการพบแล้ว</div>
+    <div class="stat-pill"><span class="num" style="color:#d97706">3</span> กำลังค้นหา</div>
+    <div class="stat-pill"><span class="num">7</span> รายการทั้งหมด</div>
+  </div>
+
+  <div class="lost-top">
+    <div class="status-tabs">
+      <button class="s-tab on" data-filter="all">ทั้งหมด</button>
+      <button class="s-tab" data-filter="found">พบแล้ว</button>
+      <button class="s-tab" data-filter="seek">กำลังค้นหา</button>
+    </div>
+    <div class="lost-controls">
+      <div class="search-box">
+        <input type="text" id="search-input" placeholder="ค้นหารายการ...">
+        <button class="s-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="lost-grid" id="lost-grid">
+    <div class="l-card fade" data-status="found" data-name="กล้อง Canon EOS R5">
+      <div class="l-ico">📷</div><h4>กล้อง Canon EOS R5</h4>
+      <p>พบในห้อง A ชั้น 2 วันที่ 12 ม.ค.</p>
+      <div class="badge found">✓ พบแล้ว</div>
+    </div>
+    <div class="l-card fade" style="transition-delay:.07s" data-status="seek" data-name="ไมโครโฟนไร้สาย Shure">
+      <div class="l-ico">🎤</div><h4>ไมโครโฟนไร้สาย Shure</h4>
+      <p>หายจากห้อง Studio B วันที่ 18 ม.ค.</p>
+      <div class="badge seek">⏳ กำลังค้นหา</div>
+    </div>
+    <div class="l-card fade" style="transition-delay:.12s" data-status="found" data-name="หูฟัง Sony MDR-7506">
+      <div class="l-ico">🎧</div><h4>หูฟัง Sony MDR-7506</h4>
+      <p>พบบริเวณโถงทางเข้า วันที่ 20 ม.ค.</p>
+      <div class="badge found">✓ พบแล้ว</div>
+    </div>
+    <div class="l-card fade" style="transition-delay:.17s" data-status="seek" data-name="Flash Drive 256GB สีดำ">
+      <div class="l-ico">💾</div><h4>Flash Drive 256GB สีดำ</h4>
+      <p>หายระหว่างอัดเสียง วันที่ 22 ม.ค.</p>
+      <div class="badge seek">⏳ กำลังค้นหา</div>
+    </div>
+    <div class="l-card fade" style="transition-delay:.22s" data-status="found" data-name="สาย XLR Neutrik">
+      <div class="l-ico">🔌</div><h4>สาย XLR Neutrik</h4>
+      <p>พบในห้อง Control Room วันที่ 25 ม.ค.</p>
+      <div class="badge found">✓ พบแล้ว</div>
+    </div>
+    <div class="l-card fade" style="transition-delay:.27s" data-status="seek" data-name="iPhone 15 Pro สีธรรมชาติ">
+      <div class="l-ico">📱</div><h4>iPhone 15 Pro สีธรรมชาติ</h4>
+      <p>หายในพื้นที่ Lounge วันที่ 26 ม.ค.</p>
+      <div class="badge seek">⏳ กำลังค้นหา</div>
+    </div>
+    <div class="l-card fade" style="transition-delay:.32s" data-status="found" data-name="MIDI Controller Arturia">
+      <div class="l-ico">🎹</div><h4>MIDI Controller Arturia</h4>
+      <p>พบหลังโต๊ะ Editing Bay วันที่ 28 ม.ค.</p>
+      <div class="badge found">✓ พบแล้ว</div>
+    </div>
+    <div class="l-card fade" style="transition-delay:.37s; border-style:dashed; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; min-height:130px" id="add-card" onclick="openModal(event)">
+      <div style="font-size:1.6rem;margin-bottom:10px;color:var(--blue)">＋</div>
+      <h4>แจ้งของหายใหม่</h4>
+      <p style="margin-top:6px">กดเพื่อกรอกรายละเอียด</p>
+      <div class="badge add" style="margin-top:12px">→ แจ้งรายการ</div>
+    </div>
+  </div>
+</div>
+
+<!-- Report Modal -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="m-close" onclick="document.getElementById('modal').classList.remove('open')">✕</button>
+    <h3>แจ้งของหายใหม่</h3>
+    <p>กรอกรายละเอียดด้านล่าง เจ้าหน้าที่จะติดต่อกลับ</p>
+    <div class="form-row">
+      <label>ชื่อสิ่งของ *</label>
+      <input type="text" placeholder="เช่น กล้อง Canon EOS R5">
+    </div>
+    <div class="form-row">
+      <label>สถานที่ที่หาย</label>
+      <input type="text" placeholder="เช่น ห้อง Studio A ชั้น 2">
+    </div>
+    <div class="form-row">
+      <label>วันที่หาย</label>
+      <input type="date">
+    </div>
+    <div class="form-row">
+      <label>ข้อมูลเพิ่มเติม</label>
+      <textarea placeholder="สี, ยี่ห้อ, หรือลักษณะพิเศษ..."></textarea>
+    </div>
+    <div class="form-row">
+      <label>ชื่อผู้แจ้ง</label>
+      <input type="text" placeholder="ชื่อ-นามสกุล">
+    </div>
+    <div class="form-row">
+      <label>เบอร์โทรศัพท์</label>
+      <input type="tel" placeholder="08X-XXX-XXXX">
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-blue" onclick="submitForm()">ส่งรายการ</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('modal').classList.remove('open')">ยกเลิก</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="ft-grid">
+    <div class="ft-brand">
+      <a class="logo" href="index.html"><div class="logo-dot"></div>ห้องโสตทัศนศึกษา</a>
+      <p>ห้องโสตทัศนศึกษา พร้อมให้บริการด้านการผลิตสื่อและบันทึกเสียง เพื่อสนับสนุนการเรียนการสอน</p>
+    </div>
+    <div class="ft-col">
+      <h5>เมนูหลัก</h5>
+      <a href="index.html">หน้าหลัก</a><a href="portfolio.html">ผลงาน</a><a href="gallery.html">รูปภาพ</a><a href="lost.html">ของหาย</a>
+    </div>
+    <div class="ft-col">
+      <h5>บริการ</h5>
+      <a href="#">บันทึกเสียง</a><a href="#">ถ่ายภาพนิ่ง</a><a href="#">ผลิตวิดีโอการสอน</a><a href="#">สื่อมัลติมีเดีย</a>
+    </div>
+    <div class="ft-col">
+      <h5>ติดต่อ</h5>
+      <a href="#">📍 กรุงเทพมหานคร</a><a href="#">📞 02-XXX-XXXX</a><a href="#">✉️ info@audiovision.th</a><a href="#">⏰ จ–ศ 9:00–18:00</a>
+    </div>
+  </div>
+  <div class="ft-bottom">
+    <p>© 2568 ห้องโสตทัศนศึกษา. สงวนลิขสิทธิ์ทุกประการ</p>
+    <div class="online"><div class="dot-green"></div><p>ระบบออนไลน์ · พร้อมรับงาน</p></div>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('in'); }), { threshold:0.1 });
+  document.querySelectorAll('.fade').forEach(el => obs.observe(el));
+
+  // Filter by status
+  document.querySelectorAll('.s-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.s-tab').forEach(t => t.classList.remove('on'));
+      tab.classList.add('on');
+      filterCards();
+    });
+  });
+
+  // Search
+  document.getElementById('search-input').addEventListener('input', filterCards);
+
+  function filterCards() {
+    const status = document.querySelector('.s-tab.on').dataset.filter;
+    const q = document.getElementById('search-input').value.toLowerCase();
+    document.querySelectorAll('#lost-grid .l-card').forEach(card => {
+      if(card.id === 'add-card') return;
+      const matchStatus = status === 'all' || card.dataset.status === status;
+      const matchSearch = !q || card.dataset.name.toLowerCase().includes(q);
+      card.style.display = (matchStatus && matchSearch) ? '' : 'none';
+    });
+  }
+
+  function openModal(e) { e.preventDefault(); document.getElementById('modal').classList.add('open'); }
+  function closeModal(e) { if(e.target.id === 'modal') document.getElementById('modal').classList.remove('open'); }
+  function submitForm() {
+    alert('ส่งรายการแล้ว เจ้าหน้าที่จะติดต่อกลับภายใน 1 วันทำการ');
+    document.getElementById('modal').classList.remove('open');
+  }
+
+  const hbg = document.getElementById('hbg');
+  const mob = document.getElementById('mob-menu');
+  hbg.addEventListener('click', () => { hbg.classList.toggle('open'); mob.classList.toggle('open'); });
+</script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>รูปภาพ — ห้องโสตทัศนศึกษา</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700&family=Sarabun:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root { --white:#ffffff; --off-white:#f7f9fc; --blue:#1a6bdb; --blue-soft:#e8f0fe; --blue-mid:#3b82f6; --text:#1a2340; --text-sub:#6b7a99; --border:#e2e8f0; }
+body { font-family:'Sarabun',sans-serif; background:var(--white); color:var(--text); }
+
+nav { position:fixed; top:0; left:0; right:0; z-index:100; height:64px; background:rgba(255,255,255,0.95); backdrop-filter:blur(10px); border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; padding:0 6%; }
+.logo { display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text); font-family:'Kanit',sans-serif; font-weight:600; font-size:1rem; }
+.logo-dot { width:32px; height:32px; border-radius:50%; border:2px solid var(--blue); display:flex; align-items:center; justify-content:center; }
+.logo-dot::after { content:''; width:10px; height:10px; background:var(--blue); border-radius:50%; }
+.nav-links { display:flex; gap:2px; align-items:center; }
+.nav-links a { text-decoration:none; color:var(--text-sub); font-family:'Kanit',sans-serif; font-size:0.88rem; padding:7px 16px; border-radius:8px; transition:all 0.2s; }
+.nav-links a:hover { color:var(--blue); background:var(--blue-soft); }
+.nav-links a.active { color:var(--blue); font-weight:600; background:var(--blue-soft); }
+.nav-links a.cta { background:var(--blue); color:white !important; margin-left:8px; }
+.nav-links a.cta:hover { background:#1558c0; }
+.hamburger { display:none; flex-direction:column; justify-content:center; gap:5px; width:36px; height:36px; cursor:pointer; background:none; border:none; padding:4px; }
+.hamburger span { display:block; width:22px; height:2px; background:var(--text); border-radius:2px; transition:all 0.3s; }
+.hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity:0; }
+.hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+.mobile-menu { display:none; position:fixed; top:64px; left:0; right:0; background:white; border-bottom:1px solid var(--border); padding:12px 6%; z-index:99; flex-direction:column; gap:4px; box-shadow:0 8px 24px rgba(0,0,0,0.06); }
+.mobile-menu.open { display:flex; }
+.mobile-menu a { text-decoration:none; color:var(--text-sub); font-family:'Kanit',sans-serif; font-size:0.9rem; padding:10px 14px; border-radius:8px; transition:all 0.2s; }
+.mobile-menu a:hover { color:var(--blue); background:var(--blue-soft); }
+.mobile-menu a.active { color:var(--blue); font-weight:600; background:var(--blue-soft); }
+
+.page-hero { min-height:220px; background:var(--off-white); display:flex; align-items:center; padding:100px 6% 48px; border-bottom:1px solid var(--border); position:relative; overflow:hidden; }
+.page-hero::before { content:''; position:absolute; right:-5%; top:50%; transform:translateY(-50%); width:360px; height:360px; border-radius:50%; background:radial-gradient(circle,var(--blue-soft) 0%,rgba(232,240,254,0) 70%); }
+.page-hero-content { position:relative; z-index:1; }
+.hero-eyebrow { display:inline-flex; align-items:center; gap:8px; font-family:'Kanit',sans-serif; font-size:0.75rem; letter-spacing:2px; text-transform:uppercase; color:var(--blue); margin-bottom:14px; }
+.hero-eyebrow::before { content:''; width:20px; height:1px; background:var(--blue); }
+.page-hero h1 { font-family:'Kanit',sans-serif; font-weight:700; font-size:clamp(1.8rem,3.5vw,2.8rem); line-height:1.15; color:var(--text); margin-bottom:12px; }
+.page-hero h1 em { color:var(--blue); font-style:normal; }
+.page-hero p { color:var(--text-sub); font-size:0.95rem; line-height:1.8; max-width:480px; }
+
+.gallery-section { padding:64px 6% 80px; }
+
+/* Category tabs */
+.gal-tabs { display:flex; gap:6px; margin-bottom:36px; flex-wrap:wrap; }
+.g-tab { padding:6px 18px; border-radius:20px; font-family:'Kanit',sans-serif; font-size:0.8rem; border:1px solid var(--border); background:white; color:var(--text-sub); cursor:pointer; transition:all 0.2s; }
+.g-tab.on, .g-tab:hover { background:var(--blue); color:white; border-color:var(--blue); }
+
+.gal-grid { display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:180px 180px; gap:14px; }
+.gal-item { border-radius:10px; background:var(--blue-soft); display:flex; align-items:center; justify-content:center; border:1px solid var(--border); overflow:hidden; cursor:pointer; transition:all 0.25s; position:relative; }
+.gal-item:hover { transform:scale(1.025); box-shadow:0 8px 24px rgba(26,107,219,0.12); }
+.gal-item.t { grid-row:span 2; }
+.gal-item.w { grid-column:span 2; }
+.gal-item svg { opacity:0.4; transition:opacity 0.3s; }
+.gal-item:hover svg { opacity:0.7; }
+.gal-label { position:absolute; bottom:0; left:0; right:0; padding:10px 14px; background:linear-gradient(0deg,rgba(255,255,255,0.95),transparent); font-family:'Kanit',sans-serif; font-size:0.78rem; color:var(--text-sub); transform:translateY(100%); transition:transform 0.25s; }
+.gal-item:hover .gal-label { transform:translateY(0); }
+
+/* Lightbox */
+.lightbox { display:none; position:fixed; inset:0; background:rgba(26,35,64,0.85); z-index:999; align-items:center; justify-content:center; }
+.lightbox.open { display:flex; }
+.lb-inner { background:white; border-radius:16px; padding:32px; max-width:480px; width:90%; text-align:center; position:relative; }
+.lb-close { position:absolute; top:16px; right:16px; background:none; border:none; font-size:1.4rem; cursor:pointer; color:var(--text-sub); line-height:1; }
+.lb-icon { font-size:3rem; margin-bottom:16px; }
+.lb-title { font-family:'Kanit',sans-serif; font-weight:600; font-size:1.1rem; color:var(--text); margin-bottom:8px; }
+.lb-desc { font-size:0.88rem; color:var(--text-sub); line-height:1.7; }
+
+/* Second gallery row */
+.gal-grid-2 { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:14px; height:200px; }
+
+footer { background:white; border-top:1px solid var(--border); padding:52px 6% 28px; }
+.ft-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:36px; margin-bottom:40px; }
+.ft-brand p { font-size:0.85rem; color:var(--text-sub); line-height:1.8; margin-top:12px; max-width:260px; }
+.ft-col h5 { font-family:'Kanit',sans-serif; font-size:0.72rem; letter-spacing:2px; text-transform:uppercase; color:var(--blue); margin-bottom:14px; }
+.ft-col a { display:block; font-size:0.85rem; color:var(--text-sub); text-decoration:none; margin-bottom:8px; transition:color 0.2s; }
+.ft-col a:hover { color:var(--text); }
+.ft-bottom { display:flex; justify-content:space-between; border-top:1px solid var(--border); padding-top:20px; flex-wrap:wrap; gap:10px; }
+.ft-bottom p { font-size:0.78rem; color:var(--text-sub); }
+.online { display:flex; align-items:center; gap:6px; }
+.dot-green { width:7px; height:7px; border-radius:50%; background:#16a34a; animation:blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.fade { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease,transform 0.6s ease; }
+.fade.in { opacity:1; transform:translateY(0); }
+
+@media(max-width:900px){ .gal-grid { grid-template-columns:1fr 1fr; grid-template-rows:repeat(4,160px); } .gal-item.t,.gal-item.w { grid-column:span 1; grid-row:span 1; } .gal-grid-2 { grid-template-columns:1fr 1fr; height:auto; } .gal-grid-2 .gal-item { height:160px; } .ft-grid { grid-template-columns:1fr 1fr; } }
+@media(max-width:580px){ .nav-links { display:none !important; } .hamburger { display:flex; } .gal-grid { grid-template-columns:1fr 1fr; grid-template-rows:repeat(4,130px); } .ft-grid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html"><div class="logo-dot"></div>ห้องโสตทัศนศึกษา</a>
+  <div class="nav-links">
+    <a href="index.html">หน้าหลัก</a>
+    <a href="portfolio.html">ผลงาน</a>
+    <a href="gallery.html" class="active">รูปภาพ</a>
+    <a href="lost.html">ของหาย</a>
+    <a href="lost.html" class="cta">แจ้งของหาย</a>
+  </div>
+  <button class="hamburger" id="hbg"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mob-menu">
+  <a href="index.html">หน้าหลัก</a>
+  <a href="portfolio.html">ผลงาน</a>
+  <a href="gallery.html" class="active">รูปภาพ</a>
+  <a href="lost.html">ของหาย</a>
+</div>
+
+<div class="page-hero">
+  <div class="page-hero-content">
+    <div class="hero-eyebrow">คลังภาพ</div>
+    <h1>รูปภาพ &<em> มีเดีย</em></h1>
+    <p>บรรยากาศและอุปกรณ์ภายในห้องโสต พร้อมภาพจากการปฏิบัติงานจริง</p>
+  </div>
+</div>
+
+<div class="gallery-section">
+  <div class="gal-tabs">
+    <button class="g-tab on">ทั้งหมด</button>
+    <button class="g-tab">ห้องบันทึกเสียง</button>
+    <button class="g-tab">อุปกรณ์</button>
+    <button class="g-tab">บรรยากาศ</button>
+  </div>
+
+  <div class="gal-grid">
+    <div class="gal-item t fade" onclick="openLb('ห้องบันทึกเสียงหลัก','🎙️','ห้องบันทึกเสียงหลัก ติดตั้ง Acoustic Panel ครบครัน รองรับการบันทึกทุกประเภท')">
+      <svg width="70" height="70" viewBox="0 0 80 80"><circle cx="40" cy="40" r="34" fill="none" stroke="#3b82f6" stroke-width="1.5"/><circle cx="40" cy="40" r="24" fill="none" stroke="#93c5fd" stroke-width="4"/><circle cx="40" cy="40" r="14" fill="#dbeafe"/><ellipse cx="33" cy="33" rx="6" ry="4" fill="rgba(255,255,255,0.6)" transform="rotate(-20,33,33)"/></svg>
+      <div class="gal-label">ห้องบันทึกเสียงหลัก</div>
+    </div>
+    <div class="gal-item w fade" style="transition-delay:.06s" onclick="openLb('อุปกรณ์กล้อง','📷','คอลเลกชั่นกล้องและเลนส์คุณภาพสูง สำหรับการถ่ายภาพและวิดีโอ')">
+      <svg width="110" height="60" viewBox="0 0 200 100"><rect x="20" y="15" width="160" height="70" rx="8" fill="none" stroke="#3b82f6" stroke-width="1.5"/><circle cx="70" cy="50" r="22" fill="none" stroke="#93c5fd" stroke-width="2"/><circle cx="70" cy="50" r="12" fill="#dbeafe"/><rect x="108" y="30" width="60" height="7" rx="3" fill="#dbeafe"/><rect x="108" y="44" width="45" height="7" rx="3" fill="#eff6ff"/><rect x="108" y="58" width="52" height="7" rx="3" fill="#dbeafe"/></svg>
+      <div class="gal-label">อุปกรณ์กล้อง</div>
+    </div>
+    <div class="gal-item fade" style="transition-delay:.1s" onclick="openLb('กล้อง DSLR Studio','📸','กล้อง DSLR ระดับ Professional สำหรับงานถ่ายภาพในสตูดิโอ')">
+      <svg width="60" height="60" viewBox="0 0 80 80"><rect x="10" y="20" width="60" height="44" rx="5" fill="none" stroke="#3b82f6" stroke-width="1.5"/><circle cx="40" cy="42" r="14" fill="none" stroke="#93c5fd" stroke-width="2"/><circle cx="40" cy="42" r="8" fill="#dbeafe"/><rect x="28" y="13" width="24" height="10" rx="3" fill="#eff6ff"/></svg>
+      <div class="gal-label">กล้อง DSLR Studio</div>
+    </div>
+    <div class="gal-item fade" style="transition-delay:.14s" onclick="openLb('ไมโครโฟนสตูดิโอ','🎤','ไมโครโฟน Condenser คุณภาพสูง ให้เสียงชัดคมและละเอียด')">
+      <svg width="55" height="60" viewBox="0 0 70 80"><ellipse cx="35" cy="36" rx="18" ry="26" fill="none" stroke="#3b82f6" stroke-width="1.5"/><ellipse cx="35" cy="36" rx="8" ry="12" fill="#dbeafe"/><line x1="35" y1="62" x2="35" y2="74" stroke="#3b82f6" stroke-width="1.5"/><line x1="22" y1="74" x2="48" y2="74" stroke="#3b82f6" stroke-width="1.5"/></svg>
+      <div class="gal-label">ไมโครโฟนสตูดิโอ</div>
+    </div>
+    <div class="gal-item fade" style="transition-delay:.18s" onclick="openLb('Mixing Console','🎛️','Console 32 channel ใช้สำหรับ Mixing เสียงระดับมืออาชีพ')">
+      <svg width="60" height="55" viewBox="0 0 80 60"><rect x="8" y="10" width="52" height="40" rx="4" fill="none" stroke="#3b82f6" stroke-width="1.5"/><polygon points="60,14 74,30 60,46" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/><rect x="16" y="18" width="5" height="24" rx="2" fill="#3b82f6" opacity="0.4"/><rect x="26" y="14" width="5" height="32" rx="2" fill="#3b82f6" opacity="0.3"/><rect x="36" y="21" width="5" height="18" rx="2" fill="#3b82f6" opacity="0.4"/></svg>
+      <div class="gal-label">Mixing Console</div>
+    </div>
+    <div class="gal-item w fade" style="transition-delay:.22s" onclick="openLb('บรรยากาศภายในห้อง','🏠','บรรยากาศภายในห้องบันทึกเสียงและ Control Room')">
+      <svg width="130" height="60" viewBox="0 0 200 90"><rect x="10" y="10" width="80" height="70" rx="6" fill="none" stroke="#3b82f6" stroke-width="1.5"/><circle cx="50" cy="45" r="22" fill="none" stroke="#93c5fd" stroke-width="2"/><circle cx="50" cy="45" r="12" fill="#dbeafe"/><rect x="108" y="10" width="80" height="70" rx="6" fill="none" stroke="#3b82f6" stroke-width="1.5"/><circle cx="148" cy="45" r="22" fill="none" stroke="#93c5fd" stroke-width="2"/><circle cx="148" cy="45" r="12" fill="#dbeafe"/></svg>
+      <div class="gal-label">บรรยากาศภายในห้อง</div>
+    </div>
+  </div>
+
+  <!-- Row 2 -->
+  <div class="gal-grid-2">
+    <div class="gal-item fade" style="transition-delay:.26s" onclick="openLb('Monitor Speaker','🔊','Monitor Speaker สำหรับ Mixing ให้เสียงตรงและแม่นยำ')">
+      <svg width="55" height="55" viewBox="0 0 70 70"><rect x="10" y="10" width="50" height="50" rx="8" fill="none" stroke="#3b82f6" stroke-width="1.5"/><circle cx="35" cy="35" r="16" fill="none" stroke="#93c5fd" stroke-width="2"/><circle cx="35" cy="35" r="8" fill="#dbeafe"/><circle cx="35" cy="35" r="3" fill="#3b82f6" opacity="0.5"/></svg>
+      <div class="gal-label">Monitor Speaker</div>
+    </div>
+    <div class="gal-item fade" style="transition-delay:.3s" onclick="openLb('Lighting Setup','💡','ชุดไฟ LED สำหรับถ่ายภาพและวิดีโอ ปรับแสงได้ละเอียด')">
+      <svg width="60" height="55" viewBox="0 0 80 65"><circle cx="40" cy="28" r="20" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/><line x1="40" y1="48" x2="40" y2="60" stroke="#3b82f6" stroke-width="2"/><line x1="15" y1="14" x2="24" y2="20" stroke="#93c5fd" stroke-width="1.5"/><line x1="65" y1="14" x2="56" y2="20" stroke="#93c5fd" stroke-width="1.5"/><line x1="8" y1="30" x2="20" y2="30" stroke="#93c5fd" stroke-width="1.5"/><line x1="72" y1="30" x2="60" y2="30" stroke="#93c5fd" stroke-width="1.5"/></svg>
+      <div class="gal-label">Lighting Setup</div>
+    </div>
+    <div class="gal-item fade" style="transition-delay:.34s" onclick="openLb('Green Screen','🟩','Green Screen ขนาด 3×5 เมตร สำหรับงาน Chroma Key')">
+      <svg width="60" height="55" viewBox="0 0 80 65"><rect x="10" y="8" width="60" height="44" rx="5" fill="#e8f0fe" stroke="#3b82f6" stroke-width="1.5"/><circle cx="40" cy="30" r="12" fill="none" stroke="#93c5fd" stroke-width="2" stroke-dasharray="4 2"/><circle cx="40" cy="30" r="5" fill="#3b82f6" opacity="0.4"/><line x1="25" y1="52" x2="20" y2="62" stroke="#3b82f6" stroke-width="1.5"/><line x1="55" y1="52" x2="60" y2="62" stroke="#3b82f6" stroke-width="1.5"/></svg>
+      <div class="gal-label">Green Screen</div>
+    </div>
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lb" onclick="closeLb(event)">
+  <div class="lb-inner">
+    <button class="lb-close" onclick="document.getElementById('lb').classList.remove('open')">✕</button>
+    <div class="lb-icon" id="lb-icon">📷</div>
+    <div class="lb-title" id="lb-title">หัวข้อ</div>
+    <div class="lb-desc" id="lb-desc">คำอธิบาย</div>
+  </div>
+</div>
+
+<footer>
+  <div class="ft-grid">
+    <div class="ft-brand">
+      <a class="logo" href="index.html"><div class="logo-dot"></div>ห้องโสตทัศนศึกษา</a>
+      <p>ห้องโสตทัศนศึกษา พร้อมให้บริการด้านการผลิตสื่อและบันทึกเสียง เพื่อสนับสนุนการเรียนการสอน</p>
+    </div>
+    <div class="ft-col">
+      <h5>เมนูหลัก</h5>
+      <a href="index.html">หน้าหลัก</a><a href="portfolio.html">ผลงาน</a><a href="gallery.html">รูปภาพ</a><a href="lost.html">ของหาย</a>
+    </div>
+    <div class="ft-col">
+      <h5>บริการ</h5>
+      <a href="#">บันทึกเสียง</a><a href="#">ถ่ายภาพนิ่ง</a><a href="#">ผลิตวิดีโอการสอน</a><a href="#">สื่อมัลติมีเดีย</a>
+    </div>
+    <div class="ft-col">
+      <h5>ติดต่อ</h5>
+      <a href="#">📍 กรุงเทพมหานคร</a><a href="#">📞 02-XXX-XXXX</a><a href="#">✉️ info@audiovision.th</a><a href="#">⏰ จ–ศ 9:00–18:00</a>
+    </div>
+  </div>
+  <div class="ft-bottom">
+    <p>© 2568 ห้องโสตทัศนศึกษา. สงวนลิขสิทธิ์ทุกประการ</p>
+    <div class="online"><div class="dot-green"></div><p>ระบบออนไลน์ · พร้อมรับงาน</p></div>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('in'); }), { threshold:0.1 });
+  document.querySelectorAll('.fade').forEach(el => obs.observe(el));
+
+  function openLb(title, icon, desc) {
+    document.getElementById('lb-title').textContent = title;
+    document.getElementById('lb-icon').textContent = icon;
+    document.getElementById('lb-desc').textContent = desc;
+    document.getElementById('lb').classList.add('open');
+  }
+  function closeLb(e) { if(e.target.id === 'lb') document.getElementById('lb').classList.remove('open'); }
+
+  document.querySelectorAll('.g-tab').forEach(t => {
+    t.addEventListener('click', () => { document.querySelectorAll('.g-tab').forEach(x => x.classList.remove('on')); t.classList.add('on'); });
+  });
+
+  const hbg = document.getElementById('hbg');
+  const mob = document.getElementById('mob-menu');
+  hbg.addEventListener('click', () => { hbg.classList.toggle('open'); mob.classList.toggle('open'); });
+</script>
+</body>
+</html>
